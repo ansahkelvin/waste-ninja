@@ -49,6 +49,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    SizedBox(
+                      width: 2,
+                    ),
                     Text(
                       "skip".toUpperCase(),
                       style: TextStyle(
