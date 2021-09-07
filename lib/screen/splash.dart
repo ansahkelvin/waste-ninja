@@ -52,10 +52,22 @@ class _SplashScreenState extends State<SplashScreen> {
                     SizedBox(
                       width: 2,
                     ),
-                    Text(
-                      "skip".toUpperCase(),
-                      style: TextStyle(
-                          color: Colors.grey, fontWeight: FontWeight.bold),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
+                            fullscreenDialog: true,
+                          ),
+                          (route) => false,
+                        );
+                      },
+                      child: Text(
+                        "skip".toUpperCase(),
+                        style: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.bold),
+                      ),
                     ),
                     Row(
                       children: List.generate(
