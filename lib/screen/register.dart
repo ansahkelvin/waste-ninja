@@ -247,7 +247,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 8.0),
                                   child: Text(
-                                    "Alreadt have an account? Login",
+                                    "Already have an account? Login",
                                     style: TextStyle(
                                       color: kprimaryDeep,
                                     ),
