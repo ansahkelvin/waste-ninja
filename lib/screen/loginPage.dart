@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                             Padding(
                               padding: const EdgeInsets.only(left: 8.0),
                               child: Text(
-                                "Welcome",
+                                "Welcome Back",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 25,
