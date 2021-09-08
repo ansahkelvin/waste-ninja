@@ -16,7 +16,10 @@ class BottomController extends StatelessWidget {
         unselectedIconColor: Colors.grey,
         items: [
           FloatingNavBarItem(
-              iconData: CupertinoIcons.home, page: HomePage(), title: 'Home'),
+            iconData: CupertinoIcons.home,
+            page: HomePage(),
+            title: 'Home',
+          ),
           FloatingNavBarItem(
             iconData: CupertinoIcons.doc_on_clipboard,
             page: Bookings(),
