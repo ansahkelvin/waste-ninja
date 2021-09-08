@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wasteninja/screen/drawer.dart';
+import 'package:wasteninja/screen/report.dart';
 import 'package:wasteninja/widget/custom_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -53,6 +54,7 @@ class _HomePageState extends State<HomePage> {
                 "assets/images/38814-menu.json",
                 height: 60,
                 width: 60,
+                reverse: true,
                 repeat: false,
               ),
             ),
@@ -101,7 +103,12 @@ class _HomePageState extends State<HomePage> {
           CustomCard(
             text: "Report",
             subText: "Report illegal dumping site",
-            callback: () {},
+            callback: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ReportDumping(),
+              ),
+            ),
             iconColor: Colors.red,
             icon: CupertinoIcons.exclamationmark_octagon,
           ),
