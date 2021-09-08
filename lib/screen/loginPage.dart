@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wasteninja/helper/color.dart';
+import 'package:wasteninja/screen/bottom_controller.dart';
 import 'package:wasteninja/screen/forgot.dart';
 import 'package:wasteninja/screen/homePage.dart';
 import 'package:wasteninja/screen/register.dart';
@@ -31,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => BottomController(),
             fullscreenDialog: true,
           ),
           (route) => false,
