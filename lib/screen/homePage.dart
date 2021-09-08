@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:wasteninja/helper/color.dart';
 import 'package:wasteninja/screen/drawer.dart';
 import 'package:wasteninja/screen/report.dart';
 import 'package:wasteninja/widget/custom_card.dart';
@@ -98,7 +100,98 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(
-            height: 60,
+            height: 30,
+          ),
+          Container(
+            height: 200,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(
+                20,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: 15.0, right: 8, top: 12, bottom: 8),
+              child: Row(
+                children: [
+                  Container(
+                    width: 200,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Cleaning Service",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "We provide the best cleaning servicefor your home, offices, eventsand you name it!",
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 14,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          height: 40,
+                          width: 120,
+                          decoration: BoxDecoration(
+                            color: kprimaryDeep,
+                            borderRadius: BorderRadius.circular(
+                              8,
+                            ),
+                          ),
+                          child: Center(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Book now",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 3,
+                                ),
+                                Icon(
+                                  CupertinoIcons.arrow_right,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: SvgPicture.asset(
+                      "assets/images/undraw_wash_hands_nwl2.svg",
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
           ),
           CustomCard(
             text: "Report",

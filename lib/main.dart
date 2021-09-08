@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wasteninja/screen/bottom_controller.dart';
 import 'package:wasteninja/screen/splash.dart';
 
 void main() {
