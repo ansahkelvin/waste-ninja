@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wasteninja/helper/color.dart';
 import 'package:wasteninja/screen/forgot.dart';
+import 'package:wasteninja/screen/homePage.dart';
 import 'package:wasteninja/screen/register.dart';
 
 class LoginPage extends StatefulWidget {
@@ -16,6 +17,29 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool obscureText = true;
   bool animateSize = false;
+
+  Future<void> switchPage() async {
+    setState(() {
+      animateSize = !animateSize;
+    });
+    Future.delayed(
+      Duration(
+        milliseconds: 600,
+      ),
+    ).then(
+      (value) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+            fullscreenDialog: true,
+          ),
+          (route) => false,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final kheight = MediaQuery.of(context).size.height;
@@ -178,11 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             Center(
                               child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    animateSize = !animateSize;
-                                  });
-                                },
+                                onTap: switchPage,
                                 child: AnimatedContainer(
                                   duration: Duration(
                                     milliseconds: 500,
