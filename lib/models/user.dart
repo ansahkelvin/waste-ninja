@@ -1,29 +1,28 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 class Users {
   String? name;
   String? email;
-  String? latitude;
-  String? longitude;
+  LatLng? location;
 
   Users({
     this.name,
     this.email,
-    this.latitude,
-    this.longitude,
+    this.location,
   });
 
   Map<String, dynamic> toMap() {
     return {
       "name": this.name,
       "email": this.email,
-      "latitude": this.latitude,
-      "longitude": this.longitude,
+      "location": this.location,
     };
   }
 
   Users.fromMap(Map<String, dynamic> jsonData) {
     name = jsonData["name"];
     email = jsonData["email"];
-    latitude = jsonData["latitude"];
-    longitude = jsonData["longitude"];
+    location = jsonData["location"];
+   
   }
 }
