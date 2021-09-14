@@ -19,7 +19,7 @@ class _BookingsState extends State<Bookings> {
             color: Colors.black,
           ),
         ),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         elevation: 0.0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         iconTheme: IconThemeData(color: Colors.black),

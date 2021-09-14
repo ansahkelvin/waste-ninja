@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
+import 'package:wasteninja/provider/auth.dart';
+import 'package:wasteninja/screen/bookings.dart';
+import 'package:wasteninja/screen/landingPage.dart';
+import 'package:wasteninja/screen/user_account.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -34,7 +39,7 @@ class CustomDrawer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Services",
+                  "User Account",
                   style: TextStyle(
                     color: Colors.black54,
                     fontSize: 16,
@@ -45,10 +50,30 @@ class CustomDrawer extends StatelessWidget {
                   height: 19,
                 ),
                 ListTile(
-                  leading: Icon(
-                    Icons.cleaning_services_outlined,
+                  leading: Icon(Icons.person_outline),
+                  title: Text("Account Settings"),
+                  onTap: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => UserAccount())),
+                ),
+                ListTile(
+                  leading: Icon(CupertinoIcons.bell_circle),
+                  title: Text("Bookings"),
+                  onTap: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Bookings())),
+                ),
+                SizedBox(
+                  height: 19,
+                ),
+                Text(
+                  "Services",
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
-                  title: Text("Public Cleansing"),
+                ),
+                SizedBox(
+                  height: 19,
                 ),
                 ListTile(
                   leading: Icon(Icons.repeat_outlined),
@@ -61,6 +86,17 @@ class CustomDrawer extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.room_service_outlined),
                   title: Text("Cleaning Services"),
+                ),
+                ListTile(
+                  onTap: () async {
+                    await Provider.of<AuthBase>(context, listen: false)
+                        .logout();
+                    Navigator.of(context).pushReplacementNamed(
+                      LandingPage.route,
+                    );
+                  },
+                  leading: Icon(Icons.exit_to_app_outlined),
+                  title: Text("Logout"),
                 )
               ],
             ),

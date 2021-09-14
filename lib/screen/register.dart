@@ -1,9 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
+import 'package:wasteninja/provider/auth.dart';
+import 'package:wasteninja/screen/bottom_controller.dart';
 import 'package:wasteninja/screen/loginPage.dart';
+import 'package:wasteninja/widget/spinner.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -16,6 +21,80 @@ class _RegisterPageState extends State<RegisterPage> {
   bool obscureText = true;
   bool animateSize = false;
   bool checkValue = false;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+
+  Future<void> switchPage() async {
+    if (nameController.text.length < 4) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Wrong password"),
+        ),
+      );
+      return;
+    } else if (!emailController.text.contains("@") ||
+        emailController.text.length < 4) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Invalid Email address"),
+        ),
+      );
+      return;
+    } else if (passwordController.text.length < 4) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Wrong password"),
+        ),
+      );
+      return;
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => Spinner(text: "Signing up"),
+      );
+
+      try {
+        final provider = Provider.of<AuthBase>(context, listen: false);
+        await provider.createUserAccount(
+          emailController.text,
+          passwordController.text,
+          nameController.text,
+        );
+        Navigator.of(context).pop();
+
+        setState(() {
+          animateSize = !animateSize;
+        });
+        Future.delayed(
+          Duration(
+            milliseconds: 600,
+          ),
+        ).then(
+          (value) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BottomController(),
+                fullscreenDialog: true,
+              ),
+              (route) => false,
+            );
+          },
+        );
+      } on FirebaseException catch (e) {
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              e.message.toString(),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final kheight = MediaQuery.of(context).size.height;
@@ -105,6 +184,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 borderRadius: BorderRadius.circular(3),
                               ),
                               child: TextFormField(
+                                controller: nameController,
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
@@ -129,6 +209,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 borderRadius: BorderRadius.circular(3),
                               ),
                               child: TextFormField(
+                                controller: emailController,
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
@@ -146,13 +227,12 @@ class _RegisterPageState extends State<RegisterPage> {
                               height: 10,
                             ),
                             Container(
-                              // padding: EdgeInsets.only(bottom: 10, top: 12),
-
                               decoration: BoxDecoration(
                                 color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(3),
                               ),
                               child: TextFormField(
+                                controller: passwordController,
                                 obscureText: obscureText,
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
@@ -208,9 +288,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               child: GestureDetector(
                                 onTap: checkValue
                                     ? () {
-                                        setState(() {
-                                          animateSize = !animateSize;
-                                        });
+                                        switchPage();
                                       }
                                     : () {},
                                 child: AnimatedContainer(

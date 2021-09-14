@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wasteninja/provider/auth.dart';
 import 'package:wasteninja/provider/firestore.dart';
+import 'package:wasteninja/provider/provider.dart';
+import 'package:wasteninja/screen/landingPage.dart';
+import 'package:wasteninja/screen/loginPage.dart';
 
 import 'package:wasteninja/screen/splash.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -22,6 +25,7 @@ class MyApp extends StatelessWidget {
           // create: (context) => ,
           update: (context, auth, data) => FirestoreDB(uid: auth.uid),
         ),
+        ChangeNotifierProvider(create: (context) => AppProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -29,7 +33,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.green,
         ),
-        home: SplashScreen(),
+        home: LandingPage(),
+        routes: {
+          LoginPage.route: (context) => LoginPage(),
+          LandingPage.route: (context) => LandingPage(),
+        },
       ),
     );
   }

@@ -13,6 +13,7 @@ import 'package:wasteninja/widget/spinner.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+  static const route = '/route';
 
   @override
   _LoginPageState createState() => _LoginPageState();

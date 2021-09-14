@@ -16,13 +16,16 @@ class Spinner extends StatelessWidget {
           color: Colors.white,
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Lottie.asset(
               "assets/images/38916-infinity-rainbow.json",
               repeat: true,
               height: 80,
               width: 100,
+            ),
+            SizedBox(
+              width: 10,
             ),
             Expanded(
               child: Text(

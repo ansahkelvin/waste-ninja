@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
+import 'package:wasteninja/provider/provider.dart';
 import 'package:wasteninja/screen/drawer.dart';
 import 'package:wasteninja/screen/report.dart';
+import 'package:wasteninja/screen/user_account.dart';
 import 'package:wasteninja/widget/custom_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,6 +20,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    getPositions();
+    super.initState();
+  }
+
+  Future<void> getPositions() async {
+    final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+    Provider.of<AppProvider>(context, listen: false).setPosition(position);
+    print(position.latitude);
+    print(position.longitude);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,16 +79,24 @@ class _HomePageState extends State<HomePage> {
                 repeat: false,
               ),
             ),
-            Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: NetworkImage(
-                    "https://images.unsplash.com/photo-1563453392212-326f5e854473?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UserAccount(),
+                ),
+              ),
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      "https://images.unsplash.com/photo-1563453392212-326f5e854473?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                    ),
+                    fit: BoxFit.cover,
                   ),
-                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -224,16 +251,6 @@ class _HomePageState extends State<HomePage> {
             callback: () {},
             iconColor: Colors.green,
             icon: CupertinoIcons.bookmark,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          CustomCard(
-            text: "Forum",
-            subText: "Report any issue to us",
-            callback: () {},
-            iconColor: Colors.black,
-            icon: CupertinoIcons.bubble_right,
           ),
         ],
       ),

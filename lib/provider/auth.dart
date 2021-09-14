@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wasteninja/models/user.dart';
 
 abstract class AuthBase {
@@ -14,9 +13,9 @@ abstract class AuthBase {
   Future<User?> createUserAccount(
     String email,
     String password,
-    LatLng location,
     String name,
   );
+  Future<void> logout();
 }
 
 class Auth implements AuthBase {
@@ -27,7 +26,7 @@ class Auth implements AuthBase {
 
   Stream<User?> onAuthChange() => _firebaseInstance.authStateChanges();
   Future<User?> createUserAccount(
-      String email, String password, LatLng location, String name) async {
+      String email, String password, String name) async {
     try {
       final UserCredential firebaseUser =
           await _firebaseInstance.createUserWithEmailAndPassword(
@@ -36,13 +35,13 @@ class Auth implements AuthBase {
       );
 
       final reference = FirebaseFirestore.instance
-          .collection("users/${firebaseUser.user!.uid}");
+          .collection("users")
+          .doc("${firebaseUser.user!.uid}");
       Users userData = Users(
         email: email,
         name: name,
-        location: location,
       );
-      await reference.add(userData.toMap());
+      await reference.set(userData.toMap());
 
       return firebaseUser.user;
     } catch (e) {
@@ -63,5 +62,9 @@ class Auth implements AuthBase {
     } catch (e) {
       throw e;
     }
+  }
+
+  Future<void> logout() async {
+    await _firebaseInstance.signOut();
   }
 }
