@@ -5,7 +5,6 @@ import 'package:lottie/lottie.dart';
 import 'package:wasteninja/helper/color.dart';
 import 'package:wasteninja/screen/bottom_controller.dart';
 import 'package:wasteninja/screen/forgot.dart';
-import 'package:wasteninja/screen/homePage.dart';
 import 'package:wasteninja/screen/register.dart';
 
 class LoginPage extends StatefulWidget {
@@ -45,6 +44,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final kheight = MediaQuery.of(context).size.height;
     final kWidth = MediaQuery.of(context).size.width;
+    print(kheight);
+    print(kWidth);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -52,26 +53,31 @@ class _LoginPageState extends State<LoginPage> {
           width: kWidth,
           decoration: BoxDecoration(
             color: Colors.grey[200],
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(50),
-              bottomRight: Radius.circular(50),
-            ),
           ),
-          child: SizedBox(
-            height: kWidth * 0.3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 50,
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              Container(
+                height: kheight * 0.4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Lottie.asset(
+                      "assets/images/66268-signinanimation.json",
+                      repeat: false,
+                      height: kheight * 0.4,
+                      width: kWidth,
+                    ),
+                  ],
                 ),
-                Lottie.asset(
-                  "assets/images/66268-signinanimation.json",
-                  repeat: false,
-                ),
-                Expanded(
-                  child: Container(
+              ),
+              ListView(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                children: [
+                  Container(
+                    height: kheight > 900 ? kheight * 0.55 : kheight * 0.7,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -234,7 +240,9 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             ),
-                            Spacer(),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Center(
                               child: CupertinoButton(
                                 child: Padding(
@@ -263,9 +271,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

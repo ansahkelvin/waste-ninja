@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wasteninja/helper/color.dart';
 
 class UserAccount extends StatefulWidget {
   UserAccount({Key? key}) : super(key: key);

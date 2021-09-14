@@ -21,7 +21,7 @@ class SplashItems extends StatelessWidget {
               model.image,
               repeat: false,
             ),
-            height: 400,
+            height: MediaQuery.of(context).size.height * 0.3,
             width: double.infinity,
           ),
           Text(

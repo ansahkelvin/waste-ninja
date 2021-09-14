@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "183092130140",
+    "firebase_url": "https://waste-ninja.firebaseio.com",
+    "project_id": "waste-ninja",
+    "storage_bucket": "waste-ninja.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183092130140:android:6970f2d126bf1a7ab79199",
+        "android_client_info": {
+          "package_name": "com.example.wasteninja"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "183092130140-7o99m10l6v11o0kr4t5hem7i7klqunoi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wasteninja",
+            "certificate_hash": "d4ccc0d79e5dc8efa5766a9ece26d5a6895f3cff"
+          }
+        },
+        {
+          "client_id": "183092130140-15bo61ggj54sohplns86khigsut1obdr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAc1HCftkPNxx5_20cI78QsJjFqsjL7UV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "183092130140-15bo61ggj54sohplns86khigsut1obdr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

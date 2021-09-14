@@ -27,27 +27,31 @@ class _RegisterPageState extends State<RegisterPage> {
           width: kWidth,
           decoration: BoxDecoration(
             color: Colors.grey[200],
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(50),
-              bottomRight: Radius.circular(50),
-            ),
           ),
-          child: SizedBox(
-            height: kWidth * 0.3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 50,
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              Container(
+                height: kheight * 0.35,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Lottie.asset(
+                      "assets/images/66268-signinanimation.json",
+                      repeat: false,
+                      height: kheight * 0.35,
+                    ),
+                  ],
                 ),
-                Lottie.asset(
-                  "assets/images/66268-signinanimation.json",
-                  repeat: false,
-                ),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
+              ),
+              ListView(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  Container(
+                    height: kheight > 900 ? kheight * 0.6 : kheight * 0.87,
+                    width: kWidth,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -143,7 +147,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             Container(
                               // padding: EdgeInsets.only(bottom: 10, top: 12),
-                              height: 50,
+
                               decoration: BoxDecoration(
                                 color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(3),
@@ -176,7 +180,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                             ),
                             SizedBox(
-                              height: 30,
+                              height: 20,
                             ),
                             CheckboxListTile(
                               activeColor: kprimaryDeep,
@@ -241,7 +245,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                               ),
                             ),
-                            Spacer(),
+                            //Spacer(),
                             Center(
                               child: CupertinoButton(
                                 child: Padding(
@@ -270,9 +274,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
