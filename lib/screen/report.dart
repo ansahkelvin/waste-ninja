@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
+import 'package:wasteninja/helper/helperMethods.dart';
+import 'package:wasteninja/provider/provider.dart';
 
 class ReportDumping extends StatefulWidget {
   ReportDumping({Key? key}) : super(key: key);
@@ -10,8 +15,11 @@ class ReportDumping extends StatefulWidget {
 }
 
 class _ReportDumpingState extends State<ReportDumping> {
+  File? fileImage;
+  final infoController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -55,22 +63,33 @@ class _ReportDumpingState extends State<ReportDumping> {
                     ),
                     Column(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: kprimaryDeep,
+                        GestureDetector(
+                          onTap: () async {
+                            final image = await HelperMethods.openCamera();
+                            if (image == null) {
+                              return;
+                            }
+                            setState(() {
+                              fileImage = image;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: kprimaryDeep,
+                              ),
                             ),
-                          ),
-                          margin: EdgeInsets.all(
-                            20,
-                          ),
-                          height: 90,
-                          width: 90,
-                          child: Icon(
-                            CupertinoIcons.camera_on_rectangle,
-                            size: 40,
+                            margin: EdgeInsets.all(
+                              20,
+                            ),
+                            height: 90,
+                            width: 90,
+                            child: Icon(
+                              CupertinoIcons.camera_on_rectangle,
+                              size: 40,
+                            ),
                           ),
                         ),
                         Container(
@@ -80,14 +99,19 @@ class _ReportDumpingState extends State<ReportDumping> {
                             color: Colors.grey[200],
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Center(
-                            child: Text(
-                              "Tap on the camera to take a picture",
-                              style: TextStyle(
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ),
+                          child: fileImage == null
+                              ? Center(
+                                  child: Text(
+                                    "Tap on the camera to take a picture",
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                )
+                              : Image.file(
+                                  fileImage!,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ],
                     ),
@@ -99,9 +123,30 @@ class _ReportDumpingState extends State<ReportDumping> {
                         CupertinoIcons.location,
                       ),
                       title: Text(
-                        "Tema, Community 5",
+                        provider.placeAddress.toString(),
                         style: TextStyle(
                           color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(bottom: 10, left: 12, top: 12),
+                      height: 70,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                      child: TextFormField(
+                        controller: infoController,
+                        textInputAction: TextInputAction.done,
+                        maxLines: 3,
+                        decoration: InputDecoration(
+                          focusColor: kprimaryDeep,
+                          border: InputBorder.none,
+                          hintText: "Additional Information",
                         ),
                       ),
                     ),

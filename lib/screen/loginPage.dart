@@ -6,8 +6,8 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
 import 'package:wasteninja/provider/auth.dart';
-import 'package:wasteninja/screen/bottom_controller.dart';
 import 'package:wasteninja/screen/forgot.dart';
+import 'package:wasteninja/screen/landingPage.dart';
 import 'package:wasteninja/screen/register.dart';
 import 'package:wasteninja/widget/spinner.dart';
 
@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => BottomController(),
+              builder: (context) => LandingPage(),
               fullscreenDialog: true,
             ),
             (route) => false,

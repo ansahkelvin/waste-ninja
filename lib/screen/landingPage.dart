@@ -6,7 +6,6 @@ import 'package:wasteninja/provider/auth.dart';
 import 'package:wasteninja/screen/homePage.dart';
 import 'package:wasteninja/screen/splash.dart';
 
-import 'bottom_controller.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);

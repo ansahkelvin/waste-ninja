@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
+import 'package:wasteninja/helper/helperMethods.dart';
 import 'package:wasteninja/provider/provider.dart';
 import 'package:wasteninja/screen/drawer.dart';
 import 'package:wasteninja/screen/report.dart';
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> {
     final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
     Provider.of<AppProvider>(context, listen: false).setPosition(position);
+    HelperMethods.getPlaceAddress(position, context);
     print(position.latitude);
     print(position.longitude);
   }

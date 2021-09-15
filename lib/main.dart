@@ -7,7 +7,6 @@ import 'package:wasteninja/provider/provider.dart';
 import 'package:wasteninja/screen/landingPage.dart';
 import 'package:wasteninja/screen/loginPage.dart';
 
-import 'package:wasteninja/screen/splash.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
         Provider<AuthBase>(create: (context) => Auth()),
         ProxyProvider<AuthBase, FirestoreDB>(
           // create: (context) => ,
-          update: (context, auth, data) => FirestoreDB(uid: auth.uid),
+          update: (context, auth, data) => FirestoreDB(auth.uid),
         ),
         ChangeNotifierProvider(create: (context) => AppProvider()),
       ],

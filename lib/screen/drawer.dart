@@ -6,6 +6,7 @@ import 'package:wasteninja/provider/auth.dart';
 import 'package:wasteninja/screen/bookings.dart';
 import 'package:wasteninja/screen/landingPage.dart';
 import 'package:wasteninja/screen/user_account.dart';
+import 'package:wasteninja/widget/dialog.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -89,11 +90,20 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 ListTile(
                   onTap: () async {
-                    await Provider.of<AuthBase>(context, listen: false)
-                        .logout();
-                    Navigator.of(context).pushReplacementNamed(
-                      LandingPage.route,
+                    final response = await customDialog(
+                      context,
+                      contentText: "Are you sure you want to log out",
+                      title: "Confirm logout",
+                      actionText: "OK",
+                      cancelActionText: "CANCEL",
                     );
+                    if (response == true) {
+                      await Provider.of<AuthBase>(context, listen: false)
+                          .logout();
+                      Navigator.of(context).pushReplacementNamed(
+                        LandingPage.route,
+                      );
+                    }
                   },
                   leading: Icon(Icons.exit_to_app_outlined),
                   title: Text("Logout"),
