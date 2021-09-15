@@ -13,8 +13,11 @@ class HelperMethods {
     final cameraImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    File image = File(cameraImage!.path);
-    return image;
+    if (cameraImage != null) {
+      File image = File(cameraImage.path);
+
+      return image;
+    }
   }
 
   static Future<String> getPlaceAddress(

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
 import 'package:wasteninja/helper/helperMethods.dart';
 import 'package:wasteninja/provider/provider.dart';
+import 'package:wasteninja/screen/book_cleaning.dart';
 import 'package:wasteninja/screen/drawer.dart';
 import 'package:wasteninja/screen/report.dart';
 import 'package:wasteninja/screen/user_account.dart';
@@ -173,37 +174,45 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(
                           height: 20,
                         ),
-                        Container(
-                          height: 40,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            color: kprimaryDeep,
-                            borderRadius: BorderRadius.circular(
-                              8,
+                        GestureDetector(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BookCleaningService(),
                             ),
                           ),
-                          child: Center(
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Book now",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                          child: Container(
+                            height: 40,
+                            width: 120,
+                            decoration: BoxDecoration(
+                              color: kprimaryDeep,
+                              borderRadius: BorderRadius.circular(
+                                8,
+                              ),
+                            ),
+                            child: Center(
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 10,
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 3,
-                                ),
-                                Icon(
-                                  CupertinoIcons.arrow_right,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ],
+                                  Text(
+                                    "Book now",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 3,
+                                  ),
+                                  Icon(
+                                    CupertinoIcons.arrow_right,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         )
@@ -250,7 +259,12 @@ class _HomePageState extends State<HomePage> {
           CustomCard(
             text: "Cleaning Service",
             subText: "Book cleaning services ",
-            callback: () {},
+            callback: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BookCleaningService(),
+              ),
+            ),
             iconColor: Colors.green,
             icon: CupertinoIcons.bookmark,
           ),

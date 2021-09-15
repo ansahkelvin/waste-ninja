@@ -121,11 +121,12 @@ class _ReportDumpingState extends State<ReportDumping> {
                     ListTile(
                       leading: Icon(
                         CupertinoIcons.location,
+                        color: kprimaryDeep,
                       ),
                       title: Text(
                         provider.placeAddress.toString(),
                         style: TextStyle(
-                          color: Colors.grey,
+                          color: Colors.green,
                         ),
                       ),
                     ),
