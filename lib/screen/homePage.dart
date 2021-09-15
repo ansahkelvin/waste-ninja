@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,6 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
 import 'package:wasteninja/helper/helperMethods.dart';
+import 'package:wasteninja/provider/firestore.dart';
 import 'package:wasteninja/provider/provider.dart';
 import 'package:wasteninja/screen/book_cleaning.dart';
 import 'package:wasteninja/screen/drawer.dart';
@@ -34,30 +36,27 @@ class _HomePageState extends State<HomePage> {
         desiredAccuracy: LocationAccuracy.best);
     Provider.of<AppProvider>(context, listen: false).setPosition(position);
     HelperMethods.getPlaceAddress(position, context);
-    print(position.latitude);
-    print(position.longitude);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      drawer: CustomDrawer(),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 8,
-            vertical: 18,
+        key: scaffoldKey,
+        drawer: CustomDrawer(),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 8,
+              vertical: 18,
+            ),
+            child: ListView(
+              children: [
+                _buildRow(context),
+                _buildColumn(),
+              ],
+            ),
           ),
-          child: ListView(
-            children: [
-              _buildRow(context),
-              _buildColumn(),
-            ],
-          ),
-        ),
-      ),
-    );
+        ));
   }
 
   Widget _buildRow(BuildContext context) {

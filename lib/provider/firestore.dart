@@ -1,26 +1,21 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wasteninja/models/user.dart';
 
 abstract class FirestoreBase {
-  Future<void> addUser(String name, String email, LatLng location);
+  Future<void> getUserData();
 }
 
 class FirestoreDB implements FirestoreBase {
   FirestoreDB(this.uid);
   final String uid;
-//  final currentUserId = FirebaseAuth.instance.currentUser!.uid;
+  String? name;
+  String? email;
 
-  // final documentReference =
-  //     FirebaseFirestore.instance.collection("users").doc(uid);
-
-  Future<void> addUser(String name, String email, LatLng location) async {
-    try {
-      // Users user = Users(
-      //   email: email,
-      //   name: name,
-      // );
-      //await documentReference.add(user.toMap());
-    } catch (e) {
-      throw e;
-    }
+  Future<void> getUserData() async {
+    final data = FirebaseFirestore.instance.doc("users/$uid").get();
+    data.then((value) {
+      name = value["name"];
+      email = value["email"];
+    });
   }
 }
