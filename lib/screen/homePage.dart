@@ -11,6 +11,7 @@ import 'package:wasteninja/provider/firestore.dart';
 import 'package:wasteninja/provider/provider.dart';
 import 'package:wasteninja/screen/book_cleaning.dart';
 import 'package:wasteninja/screen/drawer.dart';
+import 'package:wasteninja/screen/mobile_bin.dart';
 import 'package:wasteninja/screen/report.dart';
 import 'package:wasteninja/screen/user_account.dart';
 import 'package:wasteninja/widget/custom_card.dart';
@@ -248,7 +249,12 @@ class _HomePageState extends State<HomePage> {
           CustomCard(
             text: "Mobile Bins",
             subText: "Rent or buy mobile bins",
-            callback: () {},
+            callback: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MobileBin(),
+              ),
+            ),
             iconColor: Colors.yellow,
             icon: CupertinoIcons.bin_xmark,
           ),
@@ -265,7 +271,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             iconColor: Colors.green,
-            icon: CupertinoIcons.bookmark,
+            icon: Icons.room_service_outlined,
           ),
         ],
       ),

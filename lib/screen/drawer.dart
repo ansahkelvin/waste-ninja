@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
 import 'package:wasteninja/provider/auth.dart';
+import 'package:wasteninja/screen/book_cleaning.dart';
 import 'package:wasteninja/screen/bookings.dart';
 import 'package:wasteninja/screen/landingPage.dart';
 import 'package:wasteninja/screen/user_account.dart';
@@ -87,6 +88,12 @@ class CustomDrawer extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.room_service_outlined),
                   title: Text("Cleaning Services"),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookCleaningService(),
+                    ),
+                  ),
                 ),
                 ListTile(
                   onTap: () async {

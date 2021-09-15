@@ -5,8 +5,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wasteninja/helper/color.dart';
-import 'package:wasteninja/helper/color.dart';
-import 'package:horizontal_picker/horizontal_picker.dart';
+
+import 'package:wasteninja/widget/priceRow.dart';
 
 class BookCleaningService extends StatefulWidget {
   const BookCleaningService({Key? key}) : super(key: key);
@@ -22,6 +22,8 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
 
   bool selectedType = false;
   String? dropDownValue;
+  double? price = 0;
+  double? rate = 0;
 
   Future<void> selectTime() async {
     final picked = await showTimePicker(
@@ -33,6 +35,32 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
         selectedTime = picked;
       });
     print(selectedTime!.format(context));
+  }
+
+  String getPrice() {
+    if (dropDownValue == "Event Service") {
+      setState(() {
+        rate = 30;
+      });
+    } else if (dropDownValue == "Home Service") {
+      setState(() {
+        rate = 30;
+      });
+    } else if (dropDownValue == "Office Service") {
+      setState(() {
+        rate = 80;
+      });
+    }
+
+    if (sqft > 250) {
+      price = (rate! * 500) / 4;
+    } else if (sqft < 250) {
+      price = (rate! * 800) / 50;
+    } else if (sqft > 550) {
+      price = (rate! * 1000) / 5;
+    }
+
+    return "GHC $price";
   }
 
   Future<void> pickDateAndTime() async {
@@ -51,6 +79,7 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
       }
     } else if (Platform.isIOS) {
       showCupertinoModalPopup(
+        barrierColor: Colors.white,
         context: context,
         builder: (context) => Container(
           height: 200,
@@ -111,25 +140,25 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
               SizedBox(
                 height: 10,
               ),
-              // Container(
-              //   height: 50,
-              //   decoration: BoxDecoration(
-              //     color: Colors.grey[200],
-              //     borderRadius: BorderRadius.circular(3),
-              //   ),
-              //   child: TextFormField(
-              //     //controller: infoController,
-              //     textInputAction: TextInputAction.done,
-              //     decoration: InputDecoration(
-              //       prefixIcon: Icon(
-              //         CupertinoIcons.mail,
-              //       ),
-              //       focusColor: kprimaryDeep,
-              //       border: InputBorder.none,
-              //       hintText: "email@com",
-              //     ),
-              //   ),
-              // ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(3),
+                ),
+                child: TextFormField(
+                  //controller: infoController,
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      CupertinoIcons.mail,
+                    ),
+                    focusColor: kprimaryDeep,
+                    border: InputBorder.none,
+                    hintText: "kelvin@gmail.com",
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -291,6 +320,7 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                             onChanged: (value) {
                               setState(() {
                                 sqft = value;
+                                price = price! + sqft;
                               });
                               print(sqft.toString());
                             },
@@ -309,13 +339,62 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                         ],
                       ),
                     ),
-                    
               SizedBox(
-                height: 60,
+                height: 20,
+              ),
+              dropDownValue == null || sqft < 1
+                  ? Container()
+                  : Container(
+                      height: 140,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1.5, color: kprimaryDeep),
+                        color: Colors.white30,
+                        borderRadius: BorderRadius.circular(
+                          15,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 12,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Price",
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 18,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            PriceRow(
+                              leftText: "Cleaning Type:",
+                              rightText: dropDownValue!,
+                            ),
+                            SizedBox(height: 10),
+                            PriceRow(
+                              leftText: "Feet",
+                              rightText: sqft.toString(),
+                            ),
+                            SizedBox(height: 10),
+                            PriceRow(
+                              leftText: "Total Price",
+                              rightText: getPrice(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+              SizedBox(
+                height: 30,
               ),
               Center(
                 child: Container(
-                  height: 60,
+                  height: 45,
                   width: MediaQuery.of(context).size.width * 0.5,
                   decoration: BoxDecoration(
                     color: Colors.green,
