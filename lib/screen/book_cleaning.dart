@@ -182,6 +182,28 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                 ),
               ),
               SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(3),
+                ),
+                child: TextFormField(
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      CupertinoIcons.location,
+                      color: kprimaryDeep,
+                    ),
+                    focusColor: kprimaryDeep,
+                    border: InputBorder.none,
+                    hintText: "Accra,Ghana",
+                  ),
+                ),
+              ),
+              SizedBox(
                 height: 20,
               ),
               Container(
