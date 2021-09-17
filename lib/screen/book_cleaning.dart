@@ -4,7 +4,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
+import 'package:wasteninja/provider/provider.dart';
 
 import 'package:wasteninja/widget/priceRow.dart';
 
@@ -101,6 +103,7 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
 
   @override
   Widget build(BuildContext context) {
+    final placeAddress = Provider.of<AppProvider>(context).placeAddress;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -127,7 +130,7 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Text(
                 "Fill out the form to book",
@@ -138,57 +141,13 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 30,
               ),
               Container(
                 height: 50,
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(3),
-                ),
-                child: TextFormField(
-                  //controller: infoController,
-                  textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      CupertinoIcons.mail,
-                    ),
-                    focusColor: kprimaryDeep,
-                    border: InputBorder.none,
-                    hintText: "kelvin@gmail.com",
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                //padding: EdgeInsets.only(bottom: 10, left: 12, top: 12),
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(3),
-                ),
-                child: TextFormField(
-                  textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      CupertinoIcons.phone,
-                    ),
-                    focusColor: kprimaryDeep,
-                    border: InputBorder.none,
-                    hintText: "Contact",
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(3),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: TextFormField(
                   textInputAction: TextInputAction.done,
@@ -199,12 +158,12 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                     ),
                     focusColor: kprimaryDeep,
                     border: InputBorder.none,
-                    hintText: "Accra,Ghana",
+                    hintText: placeAddress.toString(),
                   ),
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 40,
               ),
               Container(
                 height: 100,
@@ -267,7 +226,7 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                         Expanded(
                           child: TextButton(
                             onPressed: pickDateAndTime,
-                            child: Text("Pick date "),
+                            child: Text("Cleaning Date"),
                           ),
                         ),
                       ],
@@ -277,9 +236,29 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
               ),
               SizedBox(height: 20),
               Platform.isAndroid
-                  ? TextButton(
-                      onPressed: selectTime,
-                      child: Text("Pick Time"),
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                          onPressed: selectTime,
+                          child: Text("Cleaning Time"),
+                        ),
+                        selectedTime != null
+                            ? Container(
+                                height: 50,
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Center(
+                                    child: Text(
+                                  selectedTime!.format(context).toString(),
+                                  style: TextStyle(color: Colors.black54),
+                                )),
+                              )
+                            : Container()
+                      ],
                     )
                   : Container(),
               SizedBox(height: 20),
@@ -316,50 +295,63 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
               ),
               dropDownValue == null
                   ? Container()
-                  : Container(
-                      height: 120,
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5.0),
-                            child: Text(
-                              dropDownValue!,
-                              style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          Slider(
-                            value: sqft,
-                            label: "${sqft.toString()} sqft",
-                            min: 0,
-                            divisions: 20,
-                            max: 1000,
-                            onChanged: (value) {
-                              setState(() {
-                                sqft = value;
-                                price = price! + sqft;
-                              });
-                              print(sqft.toString());
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 24.0),
-                            child: Text(
-                              "${sqft.toString()} sqft",
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12,
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Choose Place Size",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          height: 120,
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5.0),
+                                child: Text(
+                                  dropDownValue!,
+                                  style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.left,
+                                ),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
+                              Slider(
+                                value: sqft,
+                                label: "${sqft.toString()} sqft",
+                                min: 0,
+                                divisions: 20,
+                                max: 1000,
+                                onChanged: (value) {
+                                  setState(() {
+                                    sqft = value;
+                                    price = price! + sqft;
+                                  });
+                                  print(sqft.toString());
+                                },
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 24.0),
+                                child: Text(
+                                  "${sqft.toString()} sqft",
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
               SizedBox(
                 height: 20,
@@ -412,7 +404,7 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                       ),
                     ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               Center(
                 child: Container(

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,12 +6,11 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
 import 'package:wasteninja/helper/helperMethods.dart';
-import 'package:wasteninja/provider/firestore.dart';
 import 'package:wasteninja/provider/provider.dart';
 import 'package:wasteninja/screen/book_cleaning.dart';
 import 'package:wasteninja/screen/drawer.dart';
-import 'package:wasteninja/screen/mobile_bin.dart';
 import 'package:wasteninja/screen/report.dart';
+import 'package:wasteninja/screen/trash_bin.dart';
 import 'package:wasteninja/screen/user_account.dart';
 import 'package:wasteninja/widget/custom_card.dart';
 
@@ -252,7 +250,7 @@ class _HomePageState extends State<HomePage> {
             callback: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => MobileBin(),
+                builder: (context) => BuyBins(),
               ),
             ),
             iconColor: Colors.yellow,
