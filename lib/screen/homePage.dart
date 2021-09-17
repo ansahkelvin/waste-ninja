@@ -247,8 +247,8 @@ class _HomePageState extends State<HomePage> {
             height: 10,
           ),
           CustomCard(
-            text: "Mobile Bins",
-            subText: "Rent or buy mobile bins",
+            text: "Trash Bin",
+            subText: "Buy your trash can for home.",
             callback: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -256,7 +256,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             iconColor: Colors.yellow,
-            icon: CupertinoIcons.bin_xmark,
+            icon: CupertinoIcons.trash,
           ),
           SizedBox(
             height: 10,

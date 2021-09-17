@@ -11,7 +11,7 @@ import 'package:wasteninja/provider/provider.dart';
 class HelperMethods {
   static Future<File?> openCamera() async {
     final cameraImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+        await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (cameraImage != null) {
       File image = File(cameraImage.path);
