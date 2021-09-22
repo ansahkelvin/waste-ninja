@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
 import 'package:wasteninja/helper/helperMethods.dart';
+import 'package:wasteninja/provider/auth.dart';
 import 'package:wasteninja/provider/provider.dart';
+import 'package:wasteninja/widget/spinner.dart';
 
 class ReportDumping extends StatefulWidget {
   ReportDumping({Key? key}) : super(key: key);
@@ -17,6 +21,30 @@ class ReportDumping extends StatefulWidget {
 class _ReportDumpingState extends State<ReportDumping> {
   File? fileImage;
   final infoController = TextEditingController();
+  bool isLoading = false;
+
+  Future<void> submitReport() async {
+    final userId = Provider.of<AuthBase>(context, listen: false).currentUser;
+    final location = Provider.of<AppProvider>(context, listen: false);
+    showDialog(
+        context: context, builder: (context) => Spinner(text: "Reporting"));
+    final ref =
+        FirebaseStorage.instance.ref().child("dumpsites").child(userId!.uid);
+
+
+    await ref.putFile(fileImage!);
+    final url = await ref.getDownloadURL();
+    await FirebaseFirestore.instance.collection("dumps").doc(userId.uid).set({
+      "additional_info": infoController.text,
+      "latitude": location.userPosition!.latitude,
+      "longitude": location.userPosition!.longitude,
+      "place_name": location.placeAddress,
+      "image_url": url,
+    });
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
@@ -155,24 +183,27 @@ class _ReportDumpingState extends State<ReportDumping> {
                       height: 20,
                     ),
                     Center(
-                      child: Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(
-                            10,
+                      child: GestureDetector(
+                        onTap: submitReport,
+                        child: Container(
+                          height: 60,
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(
+                              10,
+                            ),
                           ),
+                          child: Center(
+                              child: Text(
+                            "Submit",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )),
                         ),
-                        child: Center(
-                            child: Text(
-                          "Submit",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )),
                       ),
                     ),
                   ],

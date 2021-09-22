@@ -16,12 +16,6 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsFlutterBinding.ensureInitialized();
-    Firebase.initializeApp();
-  }
 
   @override
   Widget build(BuildContext context) {

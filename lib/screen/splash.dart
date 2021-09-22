@@ -6,6 +6,7 @@ import 'package:wasteninja/widget/pageItems.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
+  static const route = '/splash';
 
   @override
   _SplashScreenState createState() => _SplashScreenState();

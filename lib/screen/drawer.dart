@@ -104,6 +104,7 @@ class CustomDrawer extends StatelessWidget {
                       actionText: "OK",
                       cancelActionText: "CANCEL",
                     );
+                    print(response);
                     if (response == true) {
                       await Provider.of<AuthBase>(context, listen: false)
                           .logout();

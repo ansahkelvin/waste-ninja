@@ -6,7 +6,7 @@ import 'package:wasteninja/provider/firestore.dart';
 import 'package:wasteninja/provider/provider.dart';
 import 'package:wasteninja/screen/landingPage.dart';
 import 'package:wasteninja/screen/loginPage.dart';
-
+import 'package:wasteninja/screen/splash.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
         routes: {
           LoginPage.route: (context) => LoginPage(),
           LandingPage.route: (context) => LandingPage(),
+          SplashScreen.route: (context) => SplashScreen(),
         },
       ),
     );

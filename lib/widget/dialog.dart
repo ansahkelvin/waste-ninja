@@ -40,7 +40,8 @@ Future<dynamic> customDialog(
         ],
       ),
     );
-  } else {
+  }
+  if (Platform.isAndroid) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -56,13 +57,13 @@ Future<dynamic> customDialog(
             ),
           ),
           TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-              child: Text(
-                actionText,
-              ),
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: Text(
+              actionText,
             ),
+          ),
         ],
       ),
     );

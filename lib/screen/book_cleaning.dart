@@ -354,7 +354,7 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                       ],
                     ),
               SizedBox(
-                height: 20,
+                height: 15,
               ),
               dropDownValue == null || sqft < 1
                   ? Container()
@@ -404,7 +404,7 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                       ),
                     ),
               SizedBox(
-                height: 20,
+                height: 15,
               ),
               Center(
                 child: Container(
