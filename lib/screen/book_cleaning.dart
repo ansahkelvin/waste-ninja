@@ -2,13 +2,16 @@
 
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
+import 'package:wasteninja/provider/auth.dart';
 import 'package:wasteninja/provider/provider.dart';
 
 import 'package:wasteninja/widget/priceRow.dart';
+import 'package:wasteninja/widget/spinner.dart';
 
 class BookCleaningService extends StatefulWidget {
   const BookCleaningService({Key? key}) : super(key: key);
@@ -87,18 +90,50 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
           height: 200,
           width: double.infinity,
           child: CupertinoDatePicker(
+            mode: CupertinoDatePickerMode.date,
             minimumDate: DateTime.now(),
             onDateTimeChanged: (time) {
               setState(() {
                 selectedDate = time;
               });
-              print(selectedDate);
-              if (time.day > DateTime.now().day) {}
             },
           ),
         ),
       );
     }
+  }
+
+  Future<void> submitBooking() async {
+    final user = Provider.of<AuthBase>(context, listen: false).currentUser;
+    final placeName = Provider.of<AppProvider>(context, listen: false);
+
+    showDialog(
+        context: context, builder: (context) => Spinner(text: "Booking"));
+    final getUserData = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get();
+
+    await FirebaseFirestore.instance.collection("bookings").add({
+      "user_id": user.uid,
+      "user_name": getUserData["name"],
+      "user_location": placeName.placeAddress,
+      "longitude": placeName.userPosition!.longitude,
+      "latitude": placeName.userPosition!.latitude,
+      "booked_date": selectedDate,
+      "booked_time": selectedTime!.format(context),
+      "cleaning_type": dropDownValue,
+      "square_feet": sqft,
+      "price": price,
+    });
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("You have successfully booked the service"),
+      ),
+    );
   }
 
   @override
@@ -158,7 +193,9 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                     ),
                     focusColor: kprimaryDeep,
                     border: InputBorder.none,
-                    hintText: placeAddress.toString(),
+                    hintText: placeAddress == null
+                        ? "loading"
+                        : placeAddress.toString(),
                   ),
                 ),
               ),
@@ -235,32 +272,30 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                 ),
               ),
               SizedBox(height: 20),
-              Platform.isAndroid
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton(
-                          onPressed: selectTime,
-                          child: Text("Cleaning Time"),
-                        ),
-                        selectedTime != null
-                            ? Container(
-                                height: 50,
-                                width: 200,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Center(
-                                    child: Text(
-                                  selectedTime!.format(context).toString(),
-                                  style: TextStyle(color: Colors.black54),
-                                )),
-                              )
-                            : Container()
-                      ],
-                    )
-                  : Container(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: selectTime,
+                    child: Text("Cleaning Time"),
+                  ),
+                  selectedTime != null
+                      ? Container(
+                          height: 50,
+                          width: 200,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Center(
+                              child: Text(
+                            selectedTime!.format(context).toString(),
+                            style: TextStyle(color: Colors.black54),
+                          )),
+                        )
+                      : Container()
+                ],
+              ),
               SizedBox(height: 20),
               selectedDate != null
                   ? Row(
@@ -283,7 +318,7 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                           ),
                           child: Center(
                               child: Text(
-                            selectedDate.toString(),
+                            "${selectedDate!.year.toString()}/${selectedDate!.month.toString()}/${selectedDate!.day}",
                             style: TextStyle(color: Colors.black54),
                           )),
                         ),
@@ -407,24 +442,29 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                 height: 15,
               ),
               Center(
-                child: Container(
-                  height: 45,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(
-                      10,
+                child: GestureDetector(
+                  onTap: () {
+                    submitBooking();
+                  },
+                  child: Container(
+                    height: 45,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(
+                        10,
+                      ),
                     ),
+                    child: Center(
+                        child: Text(
+                      "Book now",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
                   ),
-                  child: Center(
-                      child: Text(
-                    "Book now",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
                 ),
               ),
             ],

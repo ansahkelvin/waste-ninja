@@ -28,21 +28,30 @@ class _ReportDumpingState extends State<ReportDumping> {
     final location = Provider.of<AppProvider>(context, listen: false);
     showDialog(
         context: context, builder: (context) => Spinner(text: "Reporting"));
-    final ref =
-        FirebaseStorage.instance.ref().child("dumpsites").child(userId!.uid);
-
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child("dumpsites")
+        .child(fileImage!.path);
 
     await ref.putFile(fileImage!);
     final url = await ref.getDownloadURL();
-    await FirebaseFirestore.instance.collection("dumps").doc(userId.uid).set({
+    await FirebaseFirestore.instance.collection("dumps").add({
       "additional_info": infoController.text,
       "latitude": location.userPosition!.latitude,
       "longitude": location.userPosition!.longitude,
       "place_name": location.placeAddress,
       "image_url": url,
+      "user_id": userId!.uid,
     });
     Navigator.of(context).pop();
     Navigator.of(context).pop();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("You have successfully reported the dump site"),
+        duration: Duration(seconds: 3),
+      ),
+    );
   }
 
   @override
