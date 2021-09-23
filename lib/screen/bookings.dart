@@ -73,51 +73,7 @@ class _BookingsState extends State<Bookings> {
                   final dt = (data['booked_date'] as Timestamp).toDate();
                   final bookedDateString = "${dt.day}-${dt.month}-${dt.year}";
 
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.grey[200],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "GHC " + data["price"].toString(),
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            PriceRow(
-                              leftText: "Booked Date:",
-                              rightText: bookedDateString,
-                            ),
-                            SizedBox(height: 10),
-                            PriceRow(
-                              leftText: "Booked Time:",
-                              rightText: data['booked_time'],
-                            ),
-                            SizedBox(height: 10),
-                            PriceRow(
-                              leftText: "Cleaning Type",
-                              rightText: data['cleaning_type'],
-                            ),
-                            SizedBox(height: 10),
-                            PriceRow(
-                              leftText: "Size",
-                              rightText: data['square_feet'].toString(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                  return bookCards(data, bookedDateString);
                 },
               ).toList(),
             );
@@ -126,6 +82,69 @@ class _BookingsState extends State<Bookings> {
             child: CircularProgressIndicator(),
           );
         },
+      ),
+    );
+  }
+
+  Padding bookCards(Map<String, dynamic> data, String bookedDateString) {
+    final date = (data['booked_date'] as Timestamp).toDate();
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.grey[200],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              "GHC " + data["price"].toString(),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+            PriceRow(
+              leftText: "Booked Date:",
+              rightText: bookedDateString,
+            ),
+            SizedBox(height: 10),
+            PriceRow(
+              leftText: "Booked Time:",
+              rightText: data['booked_time'],
+            ),
+            SizedBox(height: 10),
+            PriceRow(
+              leftText: "Cleaning Type",
+              rightText: data['cleaning_type'],
+            ),
+            SizedBox(height: 10),
+            PriceRow(
+              leftText: "Size",
+              rightText: data['square_feet'].toString(),
+            ),
+            SizedBox(height: 10),
+            PriceRow(
+              leftText: "Location",
+              rightText: data['user_location'],
+            ),
+            SizedBox(height: 10),
+            date.isAfter(DateTime.now())
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        child: Text("Cancel"),
+                        onPressed: () {},
+                      ),
+                    ],
+                  )
+                : Container()
+          ]),
+        ),
       ),
     );
   }
