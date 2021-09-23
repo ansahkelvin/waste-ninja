@@ -95,13 +95,23 @@ class _BookingsState extends State<Bookings> {
                             ),
                             SizedBox(height: 10),
                             PriceRow(
+                              leftText: "Booked Date:",
+                              rightText: bookedDateString,
+                            ),
+                            SizedBox(height: 10),
+                            PriceRow(
+                              leftText: "Booked Time:",
+                              rightText: data['booked_time'],
+                            ),
+                            SizedBox(height: 10),
+                            PriceRow(
                               leftText: "Cleaning Type",
                               rightText: data['cleaning_type'],
                             ),
                             SizedBox(height: 10),
-                             PriceRow(
-                              leftText: "Cleaning Type",
-                              rightText: data['cleaning_type'],
+                            PriceRow(
+                              leftText: "Size",
+                              rightText: data['square_feet'].toString(),
                             ),
                           ],
                         ),
