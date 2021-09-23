@@ -29,6 +29,7 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
   String? dropDownValue;
   double? price = 0;
   double? rate = 0;
+  String? dateFormat;
 
   Future<void> selectTime() async {
     final picked = await showTimePicker(
@@ -113,8 +114,16 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
         .collection("users")
         .doc(user!.uid)
         .get();
+setState(() {
+         dateFormat = "${selectedDate!.year.toString()}/${selectedDate!.month.toString()}/${selectedDate!.day}";
 
-    await FirebaseFirestore.instance.collection("bookings").add({
+});
+
+    await FirebaseFirestore.instance
+        .collection("bookings")
+        .doc(user.uid)
+        .collection("user_bookings")
+        .add({
       "user_id": user.uid,
       "user_name": getUserData["name"],
       "user_location": placeName.placeAddress,
