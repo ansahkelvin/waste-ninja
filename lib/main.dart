@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<AuthBase>(create: (context) => Auth()),
+        
         ProxyProvider<AuthBase, FirestoreDB>(
           // create: (context) => ,
           update: (context, auth, data) => FirestoreDB(auth.uid),

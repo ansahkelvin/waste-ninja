@@ -114,10 +114,10 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
         .collection("users")
         .doc(user!.uid)
         .get();
-setState(() {
-         dateFormat = "${selectedDate!.year.toString()}/${selectedDate!.month.toString()}/${selectedDate!.day}";
-
-});
+    setState(() {
+      dateFormat =
+          "${selectedDate!.year.toString()}/${selectedDate!.month.toString()}/${selectedDate!.day}";
+    });
 
     await FirebaseFirestore.instance
         .collection("bookings")
@@ -134,6 +134,7 @@ setState(() {
       "cleaning_type": dropDownValue,
       "square_feet": sqft,
       "price": price,
+      "createdAt" : Timestamp.now(),
     });
     Navigator.of(context).pop();
     Navigator.of(context).pop();

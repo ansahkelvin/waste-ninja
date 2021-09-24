@@ -35,38 +35,13 @@ class _BookingsState extends State<Bookings> {
             .collection("bookings")
             .doc(userId)
             .collection("user_bookings")
+            .orderBy("createdAt", descending: true)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.data != null) {
             return ListView(
               children: snapshot.data!.docs.map(
                 (DocumentSnapshot document) {
-                  if (document.data() == null) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 39,
-                        ),
-                        SizedBox(
-                          height: 300,
-                          child: SvgPicture.asset(
-                            "assets/images/undraw_inbox_cleanup_w2ur.svg",
-                          ),
-                        ),
-                        SizedBox(
-                          height: 39,
-                        ),
-                        Text(
-                          "You have no bookings",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    );
-                  }
                   Map<String, dynamic> data =
                       document.data()! as Map<String, dynamic>;
 
@@ -78,8 +53,29 @@ class _BookingsState extends State<Bookings> {
               ).toList(),
             );
           }
-          return Center(
-            child: CircularProgressIndicator(),
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 39,
+              ),
+              SizedBox(
+                height: 300,
+                child: SvgPicture.asset(
+                  "assets/images/undraw_inbox_cleanup_w2ur.svg",
+                ),
+              ),
+              SizedBox(
+                height: 39,
+              ),
+              Text(
+                "You have no bookings",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                ),
+              ),
+            ],
           );
         },
       ),

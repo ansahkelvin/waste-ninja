@@ -27,7 +27,9 @@ class _ReportDumpingState extends State<ReportDumping> {
     final userId = Provider.of<AuthBase>(context, listen: false).currentUser;
     final location = Provider.of<AppProvider>(context, listen: false);
     showDialog(
-        context: context, builder: (context) => Spinner(text: "Reporting"));
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => Spinner(text: "Reporting"));
     final ref = FirebaseStorage.instance
         .ref()
         .child("dumpsites")

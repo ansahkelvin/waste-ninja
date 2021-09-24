@@ -23,6 +23,8 @@ class Auth implements AuthBase {
 
   User? get currentUser => _firebaseInstance.currentUser;
   String get uid => _firebaseInstance.currentUser!.uid;
+  String? userMail;
+  String? userNamne;
 
   Stream<User?> onAuthChange() => _firebaseInstance.authStateChanges();
   Future<User?> createUserAccount(
@@ -67,4 +69,6 @@ class Auth implements AuthBase {
   Future<void> logout() async {
     await _firebaseInstance.signOut();
   }
+
+
 }

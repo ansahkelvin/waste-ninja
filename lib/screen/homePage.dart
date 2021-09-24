@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,6 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
 import 'package:wasteninja/helper/helperMethods.dart';
+import 'package:wasteninja/provider/auth.dart';
 import 'package:wasteninja/provider/provider.dart';
 import 'package:wasteninja/screen/book_cleaning.dart';
 import 'package:wasteninja/screen/drawer.dart';
@@ -32,9 +34,22 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> getPositions() async {
     final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best);
+      desiredAccuracy: LocationAccuracy.best,
+    );
     Provider.of<AppProvider>(context, listen: false).setPosition(position);
+    final userId =
+        Provider.of<AuthBase>(context, listen: false).currentUser!.uid;
     HelperMethods.getPlaceAddress(position, context);
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(userId)
+        .get()
+        .then((user) {
+      Provider.of<AppProvider>(context, listen: false)
+          .setUserInfo(user["email"], user["name"]);
+      print(user["email"]);
+      print(user["name"]);
+    });
   }
 
   @override
