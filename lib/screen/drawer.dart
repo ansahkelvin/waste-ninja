@@ -11,6 +11,8 @@ import 'package:wasteninja/screen/landingPage.dart';
 import 'package:wasteninja/screen/user_account.dart';
 import 'package:wasteninja/widget/dialog.dart';
 
+import 'user_bookings.dart';
+
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
 
@@ -69,7 +71,7 @@ class CustomDrawer extends StatelessWidget {
                 leading: Icon(CupertinoIcons.bell_circle),
                 title: Text("Bookings"),
                 onTap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Bookings())),
+                    MaterialPageRoute(builder: (context) => BookingPlace())),
               ),
               SizedBox(
                 height: 19,

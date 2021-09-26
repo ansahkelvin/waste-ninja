@@ -37,7 +37,7 @@ class _ReportDumpingState extends State<ReportDumping> {
 
     await ref.putFile(fileImage!);
     final url = await ref.getDownloadURL();
-    await FirebaseFirestore.instance.collection("dumps").add({
+    await FirebaseFirestore.instance.collection("dumps").add({ 
       "additional_info": infoController.text,
       "latitude": location.userPosition!.latitude,
       "longitude": location.userPosition!.longitude,

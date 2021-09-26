@@ -35,9 +35,10 @@ class _BuyBinsState extends State<BuyBins> {
               Text(
                 "Purchase your bin",
                 style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,),
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
               )
             ],
           ),

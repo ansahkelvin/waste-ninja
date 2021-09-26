@@ -121,8 +121,7 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
 
     await FirebaseFirestore.instance
         .collection("bookings")
-        .doc(user.uid)
-        .collection("user_bookings")
+        
         .add({
       "user_id": user.uid,
       "user_name": getUserData["name"],
