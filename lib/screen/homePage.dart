@@ -15,6 +15,7 @@ import 'package:wasteninja/screen/drawer.dart';
 import 'package:wasteninja/screen/report.dart';
 import 'package:wasteninja/screen/trash_bin.dart';
 import 'package:wasteninja/screen/user_account.dart';
+import 'package:wasteninja/widget/custom_button.dart';
 import 'package:wasteninja/widget/custom_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -188,47 +189,16 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(
                           height: 20,
                         ),
-                        GestureDetector(
-                          onTap: () => Navigator.push(
+                        CustomButton(
+                          text: "Book now",
+                          onPressed: () => Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => BookingCategory(),
                             ),
                           ),
-                          child: Container(
-                            height: 40,
-                            width: 120,
-                            decoration: BoxDecoration(
-                              color: kprimaryDeep,
-                              borderRadius: BorderRadius.circular(
-                                8,
-                              ),
-                            ),
-                            child: Center(
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Book now",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 3,
-                                  ),
-                                  Icon(
-                                    CupertinoIcons.arrow_right,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          height: 40,
+                          width: 120,
                         )
                       ],
                     ),
