@@ -15,7 +15,10 @@ class PriceRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(leftText),
-        Text(rightText),
+        SizedBox(
+          width: 40,
+        ),
+        Expanded(child: Text(rightText, overflow: TextOverflow.ellipsis)),
       ],
     );
   }

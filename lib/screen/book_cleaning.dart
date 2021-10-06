@@ -23,12 +23,12 @@ class BookCleaningService extends StatefulWidget {
 class _BookCleaningServiceState extends State<BookCleaningService> {
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
-  double sqft = 0.0;
+  double sqft = 50.0;
+  final controller = TextEditingController();
 
   bool selectedType = false;
-  String? dropDownValue;
   double? price = 0;
-  double? rate = 0;
+  double? rate = 50;
   String? dateFormat;
 
   Future<void> selectTime() async {
@@ -44,26 +44,12 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
   }
 
   String getPrice() {
-    if (dropDownValue == "Event Service") {
-      setState(() {
-        rate = 30;
-      });
-    } else if (dropDownValue == "Home Service") {
-      setState(() {
-        rate = 30;
-      });
-    } else if (dropDownValue == "Office Service") {
-      setState(() {
-        rate = 80;
-      });
-    }
-
-    if (sqft > 250) {
-      price = (rate! * 500) / 4;
+    if (sqft >= 50) {
+      price = (rate! * 30) / 4;
     } else if (sqft < 250) {
-      price = (rate! * 800) / 50;
+      price = (rate! * 50) / 50;
     } else if (sqft > 550) {
-      price = (rate! * 1000) / 5;
+      price = (rate! * 70) / 5;
     }
 
     return "GHC $price";
@@ -119,21 +105,19 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
           "${selectedDate!.year.toString()}/${selectedDate!.month.toString()}/${selectedDate!.day}";
     });
 
-    await FirebaseFirestore.instance
-        .collection("bookings")
-        
-        .add({
+    await FirebaseFirestore.instance.collection("bookings").add({
       "user_id": user.uid,
       "user_name": getUserData["name"],
       "user_location": placeName.placeAddress,
       "longitude": placeName.userPosition!.longitude,
       "latitude": placeName.userPosition!.latitude,
       "booked_date": selectedDate,
+      "office_name": controller.text,
       "booked_time": selectedTime!.format(context),
-      "cleaning_type": dropDownValue,
+      "cleaning_type": "Office service",
       "square_feet": sqft,
       "price": price,
-      "createdAt" : Timestamp.now(),
+      "createdAt": Timestamp.now(),
     });
     Navigator.of(context).pop();
     Navigator.of(context).pop();
@@ -209,78 +193,31 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                 ),
               ),
               SizedBox(
-                height: 40,
+                height: 10,
               ),
               Container(
-                height: 100,
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Cleaning Type",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black54,
-                        fontSize: 16,
-                      ),
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: TextFormField(
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      CupertinoIcons.bag,
+                      color: kprimaryDeep,
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(15)),
-                          child: DropdownButton<String>(
-                            iconEnabledColor: Colors.black,
-                            underline: Container(),
-                            style: TextStyle(
-                              color: Colors.black54,
-                            ),
-                            elevation: 0,
-                            value: dropDownValue,
-                            onChanged: (value) {
-                              setState(() {
-                                dropDownValue = value;
-                              });
-                            },
-                            items: <String>[
-                              'Event Service',
-                              'Home Service',
-                              'Office Service',
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            hint: Text(
-                              "Please choose event",
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Expanded(
-                          child: TextButton(
-                            onPressed: pickDateAndTime,
-                            child: Text("Cleaning Date"),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+                    focusColor: kprimaryDeep,
+                    border: InputBorder.none,
+                    hintText: "Name of Office",
+                  ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -288,165 +225,157 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                     onPressed: selectTime,
                     child: Text("Cleaning Time"),
                   ),
-                  selectedTime != null
-                      ? Container(
-                          height: 50,
-                          width: 200,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Center(
-                              child: Text(
-                            selectedTime!.format(context).toString(),
-                            style: TextStyle(color: Colors.black54),
-                          )),
-                        )
-                      : Container()
+                  Container(
+                    height: 50,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Center(
+                        child: Text(
+                      selectedTime == null
+                          ? "Select Time"
+                          : selectedTime!.format(context).toString(),
+                      style: TextStyle(color: Colors.black54),
+                    )),
+                  )
                 ],
               ),
               SizedBox(height: 20),
-              selectedDate != null
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Date Chosen:",
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Container(
-                          height: 50,
-                          width: 200,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Center(
-                              child: Text(
-                            "${selectedDate!.year.toString()}/${selectedDate!.month.toString()}/${selectedDate!.day}",
-                            style: TextStyle(color: Colors.black54),
-                          )),
-                        ),
-                      ],
-                    )
-                  : Container(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: pickDateAndTime,
+                    child: Text("Cleaning Date"),
+                  ),
+                  Container(
+                    height: 50,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Center(
+                        child: Text(
+                      selectedDate == null
+                          ? "Select Date"
+                          : "${selectedDate!.year.toString()}/${selectedDate!.month.toString()}/${selectedDate!.day}",
+                      style: TextStyle(color: Colors.black54),
+                    )),
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 30,
               ),
-              dropDownValue == null
-                  ? Container()
-                  : Column(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Choose Place Size",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    height: 120,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Choose Place Size",
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5.0),
+                          child: Text(
+                            "Office Service",
                             style: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          height: 120,
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 5.0),
-                                child: Text(
-                                  dropDownValue!,
-                                  style: TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.left,
-                                ),
-                              ),
-                              Slider(
-                                value: sqft,
-                                label: "${sqft.toString()} sqft",
-                                min: 0,
-                                divisions: 20,
-                                max: 1000,
-                                onChanged: (value) {
-                                  setState(() {
-                                    sqft = value;
-                                    price = price! + sqft;
-                                  });
-                                  print(sqft.toString());
-                                },
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 24.0),
-                                child: Text(
-                                  "${sqft.toString()} sqft",
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              )
-                            ],
+                                color: Colors.black54,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.left,
                           ),
                         ),
+                        Slider(
+                          value: sqft,
+                          label: "${sqft.toString()} sqft",
+                          min: 0,
+                          divisions: 20,
+                          max: 400,
+                          onChanged: (value) {
+                            setState(() {
+                              sqft = value;
+                              price = price! + sqft;
+                            });
+                            print(sqft.toString());
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 24.0),
+                          child: Text(
+                            "${sqft.toString()} sqft",
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 12,
+                            ),
+                          ),
+                        )
                       ],
                     ),
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 15,
               ),
-              dropDownValue == null || sqft < 1
-                  ? Container()
-                  : Container(
-                      height: 140,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1.5, color: kprimaryDeep),
-                        color: Colors.white30,
-                        borderRadius: BorderRadius.circular(
-                          15,
+              Container(
+                height: 140,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1.5, color: kprimaryDeep),
+                  color: Colors.white30,
+                  borderRadius: BorderRadius.circular(
+                    15,
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 12,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Price",
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 18,
                         ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                          vertical: 12,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Price",
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 18,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            PriceRow(
-                              leftText: "Cleaning Type:",
-                              rightText: dropDownValue!,
-                            ),
-                            SizedBox(height: 10),
-                            PriceRow(
-                              leftText: "Feet",
-                              rightText: sqft.toString(),
-                            ),
-                            SizedBox(height: 10),
-                            PriceRow(
-                              leftText: "Total Price",
-                              rightText: getPrice(),
-                            ),
-                          ],
-                        ),
+                      SizedBox(height: 10),
+                      PriceRow(
+                        leftText: "Cleaning Type:",
+                        rightText: "Office Service",
                       ),
-                    ),
+                      SizedBox(height: 10),
+                      PriceRow(
+                        leftText: "Feet",
+                        rightText: sqft.toString(),
+                      ),
+                      SizedBox(height: 10),
+                      PriceRow(
+                        leftText: "Total Price",
+                        rightText: getPrice(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 15,
               ),

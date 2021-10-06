@@ -9,6 +9,7 @@ import 'package:wasteninja/helper/color.dart';
 import 'package:wasteninja/helper/helperMethods.dart';
 import 'package:wasteninja/provider/auth.dart';
 import 'package:wasteninja/provider/provider.dart';
+import 'package:wasteninja/screen/book_category.dart';
 import 'package:wasteninja/screen/book_cleaning.dart';
 import 'package:wasteninja/screen/drawer.dart';
 import 'package:wasteninja/screen/report.dart';
@@ -280,7 +281,7 @@ class _HomePageState extends State<HomePage> {
             callback: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => BookCleaningService(),
+                builder: (context) => BookPage(),
               ),
             ),
             iconColor: Colors.green,

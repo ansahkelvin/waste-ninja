@@ -13,6 +13,7 @@ class BookingPlace extends StatefulWidget {
 }
 
 class _BookingPlaceState extends State<BookingPlace> {
+  
   @override
   Widget build(BuildContext context) {
     final userId =
@@ -36,6 +37,9 @@ class _BookingPlaceState extends State<BookingPlace> {
             .where("user_id", isEqualTo: userId)
             .get(),
         builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
           if (snapshot.data != null) {
             return ListView(
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -73,10 +77,6 @@ class _BookingPlaceState extends State<BookingPlace> {
               ],
             );
           }
-
-          return Center(
-            child: CircularProgressIndicator(),
-          );
         },
       ),
     );
@@ -119,12 +119,12 @@ class _BookingPlaceState extends State<BookingPlace> {
             ),
             SizedBox(height: 10),
             PriceRow(
-              leftText: "Size",
+              leftText: "Building Size: ",
               rightText: data['square_feet'].toString(),
             ),
             SizedBox(height: 10),
             PriceRow(
-              leftText: "Location",
+              leftText: "Place Location",
               rightText: data['user_location'],
             ),
             SizedBox(height: 10),

@@ -29,7 +29,7 @@ class CustomDrawer extends StatelessWidget {
           decoration: BoxDecoration(color: kprimaryLight),
           margin: EdgeInsets.zero,
           accountName: Text(
-            name!,
+            name?? "loading",
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -37,7 +37,7 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           accountEmail: Text(
-           email!,
+           email?? "loading",
           ),
           currentAccountPicture: CircleAvatar(
             backgroundImage: NetworkImage(
