@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wasteninja/screen/book_cleaning.dart';
-import 'package:wasteninja/screen/bookings.dart';
-import 'package:wasteninja/screen/user_bookings.dart';
+import 'package:wasteninja/screen/office_booking.dart';
 import 'package:wasteninja/widget/container.dart';
 
-class BookPage extends StatelessWidget {
-  const BookPage({Key? key}) : super(key: key);
+class BookingCategory extends StatelessWidget {
+  const BookingCategory({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +41,7 @@ class BookPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+          
               SizedBox(
                 height: 30,
               ),
@@ -58,7 +54,7 @@ class BookPage extends StatelessWidget {
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BookPage(),
+                    builder: (context) => BookingCategory(),
                   ),
                 ),
               ),
@@ -74,7 +70,7 @@ class BookPage extends StatelessWidget {
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BookCleaningService(),
+                    builder: (context) => OfiiceBooking(),
                   ),
                 ),
               ),
@@ -89,7 +85,7 @@ class BookPage extends StatelessWidget {
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BookPage(),
+                    builder: (context) => BookingCategory(),
                   ),
                 ),
               )

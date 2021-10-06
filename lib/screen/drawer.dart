@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
 import 'package:wasteninja/provider/auth.dart';
 import 'package:wasteninja/provider/provider.dart';
-import 'package:wasteninja/screen/book_cleaning.dart';
+import 'package:wasteninja/screen/office_booking.dart';
 import 'package:wasteninja/screen/bookings.dart';
 import 'package:wasteninja/screen/landingPage.dart';
 import 'package:wasteninja/screen/user_account.dart';
@@ -101,7 +101,7 @@ class CustomDrawer extends StatelessWidget {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BookCleaningService(),
+                    builder: (context) => OfiiceBooking(),
                   ),
                 ),
               ),

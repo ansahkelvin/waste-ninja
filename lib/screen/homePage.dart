@@ -10,7 +10,7 @@ import 'package:wasteninja/helper/helperMethods.dart';
 import 'package:wasteninja/provider/auth.dart';
 import 'package:wasteninja/provider/provider.dart';
 import 'package:wasteninja/screen/book_category.dart';
-import 'package:wasteninja/screen/book_cleaning.dart';
+import 'package:wasteninja/screen/office_booking.dart';
 import 'package:wasteninja/screen/drawer.dart';
 import 'package:wasteninja/screen/report.dart';
 import 'package:wasteninja/screen/trash_bin.dart';
@@ -192,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => BookCleaningService(),
+                              builder: (context) => BookingCategory(),
                             ),
                           ),
                           child: Container(
@@ -281,7 +281,7 @@ class _HomePageState extends State<HomePage> {
             callback: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => BookPage(),
+                builder: (context) => BookingCategory(),
               ),
             ),
             iconColor: Colors.green,

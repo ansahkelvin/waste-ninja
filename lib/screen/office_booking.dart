@@ -7,20 +7,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
+import 'package:wasteninja/models/office_booking_model.dart';
 import 'package:wasteninja/provider/auth.dart';
 import 'package:wasteninja/provider/provider.dart';
 
 import 'package:wasteninja/widget/priceRow.dart';
 import 'package:wasteninja/widget/spinner.dart';
 
-class BookCleaningService extends StatefulWidget {
-  const BookCleaningService({Key? key}) : super(key: key);
+class OfiiceBooking extends StatefulWidget {
+  const OfiiceBooking({Key? key}) : super(key: key);
 
   @override
-  _BookCleaningServiceState createState() => _BookCleaningServiceState();
+  _OfiiceBookingState createState() => _OfiiceBookingState();
 }
 
-class _BookCleaningServiceState extends State<BookCleaningService> {
+class _OfiiceBookingState extends State<OfiiceBooking> {
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   double sqft = 50.0;
@@ -92,8 +93,7 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
 
   Future<void> submitBooking() async {
     final user = Provider.of<AuthBase>(context, listen: false).currentUser;
-    final placeName = Provider.of<AppProvider>(context, listen: false);
-
+    final locationProvider = Provider.of<AppProvider>(context, listen: false);
     showDialog(
         context: context, builder: (context) => Spinner(text: "Booking"));
     final getUserData = await FirebaseFirestore.instance
@@ -105,20 +105,22 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
           "${selectedDate!.year.toString()}/${selectedDate!.month.toString()}/${selectedDate!.day}";
     });
 
-    await FirebaseFirestore.instance.collection("bookings").add({
-      "user_id": user.uid,
-      "user_name": getUserData["name"],
-      "user_location": placeName.placeAddress,
-      "longitude": placeName.userPosition!.longitude,
-      "latitude": placeName.userPosition!.latitude,
-      "booked_date": selectedDate,
-      "office_name": controller.text,
-      "booked_time": selectedTime!.format(context),
-      "cleaning_type": "Office service",
-      "square_feet": sqft,
-      "price": price,
-      "createdAt": Timestamp.now(),
-    });
+    Office officeModel = Office(
+      price: this.price.toString(),
+      longitude: locationProvider.userPosition!.longitude,
+      latitude: locationProvider.userPosition!.latitude,
+      userName: getUserData["name"],
+      selectedDate: dateFormat.toString(),
+      selectedTime: selectedTime!.format(context).toString(),
+      officeLocation: locationProvider.placeAddress!,
+      officeName: controller.text,
+      officeSpace: sqft,
+      userId: user.uid,
+    );
+
+    await FirebaseFirestore.instance
+        .collection("bookings")
+        .add(officeModel.toMap());
     Navigator.of(context).pop();
     Navigator.of(context).pop();
 
@@ -202,6 +204,7 @@ class _BookCleaningServiceState extends State<BookCleaningService> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: TextFormField(
+                  controller: controller,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
                     prefixIcon: Icon(
