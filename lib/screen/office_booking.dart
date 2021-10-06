@@ -10,6 +10,7 @@ import 'package:wasteninja/helper/color.dart';
 import 'package:wasteninja/models/office_booking_model.dart';
 import 'package:wasteninja/provider/auth.dart';
 import 'package:wasteninja/provider/provider.dart';
+import 'package:wasteninja/widget/container_field.dart';
 
 import 'package:wasteninja/widget/priceRow.dart';
 import 'package:wasteninja/widget/spinner.dart';
@@ -146,7 +147,7 @@ class _OfiiceBookingState extends State<OfiiceBooking> {
           color: Colors.black,
         ),
         title: Text(
-          "Book Service",
+          "Office Booking",
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -173,12 +174,7 @@ class _OfiiceBookingState extends State<OfiiceBooking> {
               SizedBox(
                 height: 30,
               ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(12),
-                ),
+              ContainerField(
                 child: TextFormField(
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
@@ -197,12 +193,7 @@ class _OfiiceBookingState extends State<OfiiceBooking> {
               SizedBox(
                 height: 10,
               ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(12),
-                ),
+              ContainerField(
                 child: TextFormField(
                   controller: controller,
                   textInputAction: TextInputAction.done,
@@ -276,11 +267,13 @@ class _OfiiceBookingState extends State<OfiiceBooking> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Choose Place Size",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  Text(
+                    "Choose Place Size",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -362,13 +355,13 @@ class _OfiiceBookingState extends State<OfiiceBooking> {
                       ),
                       SizedBox(height: 10),
                       PriceRow(
-                        leftText: "Cleaning Type:",
+                        leftText: "Cleaning Type",
                         rightText: "Office Service",
                       ),
                       SizedBox(height: 10),
                       PriceRow(
-                        leftText: "Feet",
-                        rightText: sqft.toString(),
+                        leftText: "Office Space",
+                        rightText: "${sqft.toString()} ft",
                       ),
                       SizedBox(height: 10),
                       PriceRow(

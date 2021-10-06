@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wasteninja/screen/event_service.dart';
+import 'package:wasteninja/screen/home_service.dart';
 import 'package:wasteninja/screen/office_booking.dart';
 import 'package:wasteninja/widget/container.dart';
 
@@ -41,7 +43,6 @@ class BookingCategory extends StatelessWidget {
                   ],
                 ),
               ),
-          
               SizedBox(
                 height: 30,
               ),
@@ -54,7 +55,7 @@ class BookingCategory extends StatelessWidget {
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BookingCategory(),
+                    builder: (context) => HomeService(),
                   ),
                 ),
               ),
@@ -85,7 +86,7 @@ class BookingCategory extends StatelessWidget {
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BookingCategory(),
+                    builder: (context) => EventService(),
                   ),
                 ),
               )

@@ -18,7 +18,7 @@ class PriceRow extends StatelessWidget {
         SizedBox(
           width: 40,
         ),
-        Expanded(child: Text(rightText, overflow: TextOverflow.ellipsis)),
+        Text(rightText, overflow: TextOverflow.ellipsis),
       ],
     );
   }

@@ -3,18 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:wasteninja/helper/color.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({Key? key, required this.text, required this.onPressed, required this.height, required this.width}) : super(key: key);
+  const CustomButton(
+      {Key? key,
+      required this.text,
+      required this.onPressed,
+      required this.height,
+      required this.width})
+      : super(key: key);
 
   final String text;
   final VoidCallback onPressed;
   final double height;
   final double width;
 
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap:onPressed,
+      onTap: onPressed,
       child: Container(
         height: height,
         width: width,
@@ -26,12 +31,13 @@ class CustomButton extends StatelessWidget {
         ),
         child: Center(
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
                 width: 10,
               ),
               Text(
-               text,
+                text,
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -44,6 +50,9 @@ class CustomButton extends StatelessWidget {
                 CupertinoIcons.arrow_right,
                 color: Colors.white,
                 size: 20,
+              ),
+              SizedBox(
+                width: 10,
               ),
             ],
           ),

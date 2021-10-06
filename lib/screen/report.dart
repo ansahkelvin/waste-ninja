@@ -7,9 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wasteninja/helper/color.dart';
 import 'package:wasteninja/helper/helperMethods.dart';
+import 'package:wasteninja/models/report_dumping.dart';
 import 'package:wasteninja/provider/auth.dart';
 import 'package:wasteninja/provider/provider.dart';
+import 'package:wasteninja/widget/custom_button.dart';
 import 'package:wasteninja/widget/spinner.dart';
+import 'package:wasteninja/widget/submit_button.dart';
 
 class ReportDumping extends StatefulWidget {
   ReportDumping({Key? key}) : super(key: key);
@@ -24,27 +27,36 @@ class _ReportDumpingState extends State<ReportDumping> {
   bool isLoading = false;
 
   Future<void> submitReport() async {
-    final userId = Provider.of<AuthBase>(context, listen: false).currentUser;
+    final user = Provider.of<AuthBase>(context, listen: false).currentUser;
     final location = Provider.of<AppProvider>(context, listen: false);
+    //Show loading spinner
     showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) => Spinner(text: "Reporting"));
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => Spinner(text: "Reporting"),
+    );
+
+    //Send chosen file image to the storage bucket
     final ref = FirebaseStorage.instance
         .ref()
         .child("dumpsites")
         .child(fileImage!.path);
-
     await ref.putFile(fileImage!);
+    //Get the url of the image
     final url = await ref.getDownloadURL();
-    await FirebaseFirestore.instance.collection("dumps").add({ 
-      "additional_info": infoController.text,
-      "latitude": location.userPosition!.latitude,
-      "longitude": location.userPosition!.longitude,
-      "place_name": location.placeAddress,
-      "image_url": url,
-      "user_id": userId!.uid,
-    });
+
+    //Add data to the database
+    Report reportModel = Report(
+      additionalInfo: infoController.text,
+      userId: user!.uid,
+      image: url,
+      location: location.placeAddress!,
+      latitude: location.userPosition!.latitude,
+      longitude: location.userPosition!.longitude,
+    );
+    await FirebaseFirestore.instance
+        .collection("dumps")
+        .add(reportModel.toMap());
     Navigator.of(context).pop();
     Navigator.of(context).pop();
 
@@ -194,27 +206,10 @@ class _ReportDumpingState extends State<ReportDumping> {
                       height: 20,
                     ),
                     Center(
-                      child: GestureDetector(
+                      child: SubmitButton(
+                        text: "Report Now",
+                        height: 60,
                         onTap: submitReport,
-                        child: Container(
-                          height: 60,
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(
-                              10,
-                            ),
-                          ),
-                          child: Center(
-                              child: Text(
-                            "Submit",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )),
-                        ),
                       ),
                     ),
                   ],
