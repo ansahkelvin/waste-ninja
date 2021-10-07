@@ -120,7 +120,7 @@ class _OfiiceBookingState extends State<OfiiceBooking> {
     );
 
     await FirebaseFirestore.instance
-        .collection("bookings")
+        .collection("office")
         .add(officeModel.toMap());
     Navigator.of(context).pop();
     Navigator.of(context).pop();
@@ -173,6 +173,17 @@ class _OfiiceBookingState extends State<OfiiceBooking> {
               ),
               SizedBox(
                 height: 30,
+              ),
+              Text(
+                "Office Location",
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black54,
+                ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               ContainerField(
                 child: TextFormField(
