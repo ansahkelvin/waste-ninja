@@ -6,7 +6,7 @@ class Office {
   final String userId;
   final String officeLocation;
   final String officeName;
-  final String selectedDate;
+  final DateTime selectedDate;
   final String selectedTime;
   final String price;
   final double latitude;

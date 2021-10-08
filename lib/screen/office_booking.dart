@@ -14,6 +14,7 @@ import 'package:wasteninja/widget/container_field.dart';
 
 import 'package:wasteninja/widget/priceRow.dart';
 import 'package:wasteninja/widget/spinner.dart';
+import 'package:wasteninja/widget/submit_button.dart';
 
 class OfiiceBooking extends StatefulWidget {
   const OfiiceBooking({Key? key}) : super(key: key);
@@ -101,17 +102,14 @@ class _OfiiceBookingState extends State<OfiiceBooking> {
         .collection("users")
         .doc(user!.uid)
         .get();
-    setState(() {
-      dateFormat =
-          "${selectedDate!.year.toString()}/${selectedDate!.month.toString()}/${selectedDate!.day}";
-    });
+    setState(() {});
 
     Office officeModel = Office(
       price: this.price.toString(),
       longitude: locationProvider.userPosition!.longitude,
       latitude: locationProvider.userPosition!.latitude,
       userName: getUserData["name"],
-      selectedDate: dateFormat.toString(),
+      selectedDate: selectedDate!,
       selectedTime: selectedTime!.format(context).toString(),
       officeLocation: locationProvider.placeAddress!,
       officeName: controller.text,
@@ -386,32 +384,7 @@ class _OfiiceBookingState extends State<OfiiceBooking> {
               SizedBox(
                 height: 15,
               ),
-              Center(
-                child: GestureDetector(
-                  onTap: () {
-                    submitBooking();
-                  },
-                  child: Container(
-                    height: 45,
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(
-                        10,
-                      ),
-                    ),
-                    child: Center(
-                        child: Text(
-                      "Book now",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
-                  ),
-                ),
-              ),
+              SubmitButton(text: "Book now", height: 45, onTap: submitBooking),
             ],
           ),
         ),
